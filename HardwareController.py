@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import Freenove_DHT as DHT
 from Status import Status
 import time
 
@@ -10,10 +11,12 @@ class HardwareController:
         self.is_test_mode = test_mode
         GPIO.setmode(GPIO.BCM)
 
+        self.current_temp = 0
+
         # self.led = 1
         self.buzzer = 17
         self.servo = 27
-        self.temp_sensor = 4
+        self.dht = 4
         
         self.tones = [440, 1440]
         self.angles = [3, 12]
@@ -21,7 +24,7 @@ class HardwareController:
         # GPIO.setup(self.led, GPIO.OUT)
         GPIO.setup(self.buzzer, GPIO.OUT)
         GPIO.setup(self.servo, GPIO.OUT)
-        GPIO.setup(self.temp_sensor, GPIO.IN)
+    
         
         self.alarm = GPIO.PWM(self.buzzer, 440)
         self.door = GPIO.PWM(self.servo, 50)
@@ -31,7 +34,11 @@ class HardwareController:
         self.status = Status.NONE
         
     def read_temp(self):
-        return 20 # Read from GPIO
+        self.temp_sensor = DHT.DHT(self.dht) 
+        if self.temp_sensor.readDHT11() == 0:   
+            self.current_temp = self.temp_sensor.getTemperature()
+            
+        return self.current_temp
 
     def check_temperature(self, ui_callback_function):
         current_temp = self.read_temp()
