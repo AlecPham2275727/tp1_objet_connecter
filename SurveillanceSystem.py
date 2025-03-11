@@ -49,28 +49,28 @@ class SurveillanceSystem:
         tkinter.Label(self.root, text="Température:", font=("Arial", 12),
                       fg="white", bg="#2C2F33").pack()
 
-        self.increase_temp_btn = tkinter.Button(self.root, text="+", command=self.deactivate_test_mode)
+        self.increase_temp_btn = tkinter.Button(self.root, text="+", command=self.increase_temp)
         self.increase_temp_btn.pack()
 
-        self.decrease_temp_btn = tkinter.Button(self.root, text="-", command=self.deactivate_test_mode)
+        self.decrease_temp_btn = tkinter.Button(self.root, text="-", command=self.decrease_temp)
         self.decrease_temp_btn.pack()
 
         tkinter.Label(self.root, text="Trappe:", font=("Arial", 12),
                       fg="white", bg="#2C2F33").pack()
 
-        self.open_door_btn = tkinter.Button(self.root, text="Ouvrir", command=self.deactivate_test_mode)
+        self.open_door_btn = tkinter.Button(self.root, text="Ouvrir", command=self.open_door)
         self.open_door_btn.pack()
 
-        self.close_door_btn = tkinter.Button(self.root, text="Fermer", command=self.deactivate_test_mode)
+        self.close_door_btn = tkinter.Button(self.root, text="Fermer", command=self.close_door)
         self.close_door_btn.pack()
 
         tkinter.Label(self.root, text="Alarme:", font=("Arial", 12),
                       fg="white", bg="#2C2F33").pack()
 
-        self.activate_alarm_btn = tkinter.Button(self.root, text="Activer", command=self.deactivate_test_mode)
+        self.activate_alarm_btn = tkinter.Button(self.root, text="Activer", command=self.activate_alarm)
         self.activate_alarm_btn.pack()
 
-        self.deactivate_alarm_btn = tkinter.Button(self.root, text="Désactiver", command=self.deactivate_test_mode)
+        self.deactivate_alarm_btn = tkinter.Button(self.root, text="Désactiver", command=self.deactivate_alarm)
         self.deactivate_alarm_btn.pack()
 
     def update_temperature(self):
@@ -94,3 +94,21 @@ class SurveillanceSystem:
     def deactivate_test_mode(self):
         self.hardware.deactivate_test_mode()
         self.test_mode_value.config(text="Désactivé", fg="yellow")
+
+    def increase_temp(self):
+        pass
+
+    def decrease_temp(self):
+        pass
+
+    def open_door(self):
+        pass
+
+    def close_door(self):
+        pass
+
+    def activate_alarm(self):
+        pass
+
+    def deactivate_alarm(self):
+        pass
