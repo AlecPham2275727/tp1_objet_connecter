@@ -94,3 +94,8 @@ class HardwareController:
         GPIO.output(self.green_pin, GPIO.LOW)
         GPIO.output(self.red_pin, GPIO.HIGH)
 
+    def increase_temp(self):
+        self.current_temp += 1
+
+    def decrease_temp(self):
+        self.current_temp -= 1

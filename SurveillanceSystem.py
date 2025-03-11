@@ -96,19 +96,19 @@ class SurveillanceSystem:
         self.test_mode_value.config(text="Désactivé", fg="yellow")
 
     def increase_temp(self):
-        pass
+        self.hardware.increase_temp()
 
     def decrease_temp(self):
-        pass
+        self.hardware.decrease_temp()
 
     def open_door(self):
-        pass
+        self.hardware.open_door()
 
     def close_door(self):
-        pass
+        self.hardware.close_door()
 
     def activate_alarm(self):
-        pass
+        self.hardware.activate_alarm()
 
     def deactivate_alarm(self):
-        pass
+        self.hardware.deactivate_alarm()
