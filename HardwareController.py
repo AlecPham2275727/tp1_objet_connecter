@@ -13,7 +13,8 @@ class HardwareController:
 
         self.current_temp = 0
 
-        # self.led = 1
+        self.red_pin = "placeholder"
+        self.green_pin = "placeholder"
         self.buzzer = 17
         self.servo = 27
         self.dht = 4
@@ -21,11 +22,14 @@ class HardwareController:
         self.tones = [440, 1440]
         self.angles = [3, 12]
 
-        # GPIO.setup(self.led, GPIO.OUT)
         GPIO.setup(self.buzzer, GPIO.OUT)
         GPIO.setup(self.servo, GPIO.OUT)
-    
-        
+        GPIO.setup(self.red_pin, GPIO.OUT)
+        GPIO.setup(self.green_pin, GPIO.OUT)
+
+        GPIO.output(self.green_pin, GPIO.LOW)
+        GPIO.output(self.red_pin, GPIO.LOW)
+
         self.alarm = GPIO.PWM(self.buzzer, 440)
         self.door = GPIO.PWM(self.servo, 50)
         
@@ -48,19 +52,16 @@ class HardwareController:
                 print('Alert temp')
                 self.status = Status.ALERT
                 ui_callback_function("ALERT")
-                self.alarm.start(50)
-                self.door.start(self.angles[0])
-                time.sleep(0.25)
-                self.door.stop()
-                # turn LED ON              
+                self.activate_alarm()
+                self.close_door()
+                self.activate_red_rgb()
+
             elif current_temp <= self.MAXIMUM_SAFE_TEMP and self.status != Status.SAFE:
                 print('Safe temp')
                 self.status = Status.SAFE
-                self.alarm.stop()
-                self.door.start(self.angles[1])
-                time.sleep(0.25)
-                self.door.stop()
-                # turn LED OFF
+                self.deactivate_alarm()
+                self.open_door()
+                self.activate_green_rgb()
 
 
     def activate_test_mode(self):
@@ -68,3 +69,28 @@ class HardwareController:
 
     def deactivate_test_mode(self):
         self.is_test_mode = False
+
+    def activate_alarm(self):
+        self.alarm.start(50)
+
+    def deactivate_alarm(self):
+        self.alarm.stop()
+
+    def close_door(self):
+        self.door.start(self.angles[0])
+        time.sleep(0.25)
+        self.door.stop()
+
+    def open_door(self):
+        self.door.start(self.angles[1])
+        time.sleep(0.25)
+        self.door.stop()
+
+    def activate_green_rgb(self):
+        GPIO.output(self.red_pin, GPIO.LOW)
+        GPIO.output(self.green_pin, GPIO.HIGH)
+
+    def activate_red_rgb(self):
+        GPIO.output(self.green_pin, GPIO.LOW)
+        GPIO.output(self.red_pin, GPIO.HIGH)
+
