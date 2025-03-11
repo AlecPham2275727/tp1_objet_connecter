@@ -54,14 +54,12 @@ class HardwareController:
                 ui_callback_function("ALERT")
                 self.activate_alarm()
                 self.close_door()
-                self.activate_red_rgb()
 
             elif current_temp <= self.MAXIMUM_SAFE_TEMP and self.status != Status.SAFE:
                 print('Safe temp')
                 self.status = Status.SAFE
                 self.deactivate_alarm()
                 self.open_door()
-                self.activate_green_rgb()
 
 
     def activate_test_mode(self):
@@ -72,9 +70,11 @@ class HardwareController:
 
     def activate_alarm(self):
         self.alarm.start(50)
+        self.activate_red_rgb()
 
     def deactivate_alarm(self):
         self.alarm.stop()
+        self.activate_green_rgb()
 
     def close_door(self):
         self.door.start(self.angles[0])

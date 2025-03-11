@@ -38,11 +38,40 @@ class SurveillanceSystem:
                                              fg="yellow", bg="#2C2F33")
         self.test_mode_value.grid(row=3, column=1, sticky="w", padx=10)
 
+
+        # SECTION: TEST
         self.activate_button = tkinter.Button(self.root, text="Activer Test Mode", command=self.activate_test_mode)
         self.activate_button.grid(row=4, column=0, pady=10)
 
         self.deactivate_button = tkinter.Button(self.root, text="Désactiver Test Mode", command=self.deactivate_test_mode)
         self.deactivate_button.grid(row=4, column=1, pady=10)
+
+        tkinter.Label(self.root, text="Température:", font=("Arial", 12),
+                      fg="white", bg="#2C2F33").pack()
+
+        self.increase_temp_btn = tkinter.Button(self.root, text="+", command=self.deactivate_test_mode)
+        self.increase_temp_btn.pack()
+
+        self.decrease_temp_btn = tkinter.Button(self.root, text="-", command=self.deactivate_test_mode)
+        self.decrease_temp_btn.pack()
+
+        tkinter.Label(self.root, text="Trappe:", font=("Arial", 12),
+                      fg="white", bg="#2C2F33").pack()
+
+        self.open_door_btn = tkinter.Button(self.root, text="Ouvrir", command=self.deactivate_test_mode)
+        self.open_door_btn.pack()
+
+        self.close_door_btn = tkinter.Button(self.root, text="Fermer", command=self.deactivate_test_mode)
+        self.close_door_btn.pack()
+
+        tkinter.Label(self.root, text="Alarme:", font=("Arial", 12),
+                      fg="white", bg="#2C2F33").pack()
+
+        self.activate_alarm_btn = tkinter.Button(self.root, text="Activer", command=self.deactivate_test_mode)
+        self.activate_alarm_btn.pack()
+
+        self.deactivate_alarm_btn = tkinter.Button(self.root, text="Désactiver", command=self.deactivate_test_mode)
+        self.deactivate_alarm_btn.pack()
 
     def update_temperature(self):
         temp = self.hardware.read_temp()
@@ -65,9 +94,3 @@ class SurveillanceSystem:
     def deactivate_test_mode(self):
         self.hardware.deactivate_test_mode()
         self.test_mode_value.config(text="Désactivé", fg="yellow")
-
-
-if __name__ == "__main__":
-    window = tkinter.Tk()
-    app = SurveillanceSystem(window)
-    window.mainloop()
