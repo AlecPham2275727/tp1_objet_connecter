@@ -4,6 +4,7 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 import Freenove_DHT as DHT
 from Status import Status
 import time
+import os
 
 class HardwareController:
 
@@ -12,8 +13,11 @@ class HardwareController:
     def __init__(self, test_mode=False):
         self.is_test_mode = test_mode
         GPIO.setmode(GPIO.BCM)
+        
+        # Setup du PiGPIOFactory, empeche le servo de 'jitter' en tout temps
+        os.system("echo sudo pigpiod")
         Device.pin_factory = PiGPIOFactory('127.0.0.1')
-
+        
         self.current_temp = 0
 
         self.led = 19
@@ -42,6 +46,7 @@ class HardwareController:
         # On verifie si les donnees du capteur sont valides
         if self.temp_sensor.readDHT11() == 0:   
             self.current_temp = self.temp_sensor.getTemperature()
+            print(self.temp_sensor.getTemperature()) 
             
         return self.current_temp
 

@@ -78,7 +78,7 @@ class SurveillanceSystem:
 
         self.hardware.check_temperature(self.handle_alert)
     
-        self.root.after(500, self.update_temperature)
+        self.root.after(100, self.update_temperature)
 
     def handle_alert(self, status ):
         if status == Status.ALERT:
