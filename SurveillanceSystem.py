@@ -42,11 +42,8 @@ class SurveillanceSystem:
 
 
         # SECTION: TEST
-        self.activate_button = tkinter.Button(self.root, text="Activer Test Mode", command=self.activate_test_mode)
-        self.activate_button.grid(row=4, column=0, pady=10)
-
-        self.deactivate_button = tkinter.Button(self.root, text="Désactiver Test Mode", command=self.deactivate_test_mode)
-        self.deactivate_button.grid(row=4, column=1, pady=10)
+        self.test_mode_btn = tkinter.Button(self.root, text="Activer/Désactiver Test Mode", command=self.toggle_test_mode)
+        self.test_mode_btn.grid(row=4, column=1, pady=1)
 
         tkinter.Label(self.root, text="Température:", font=("Arial", 12),
                       fg="white", bg="#2C2F33").grid(row=0, column=2, pady=10, padx=5)
@@ -88,6 +85,12 @@ class SurveillanceSystem:
             self.door_state_value.config(text="Fermée", fg="red")
         else:
             self.door_state_value.config(text="Ouverte", fg="yellow")
+    
+    def toggle_test_mode(self):
+        if self.hardware.is_test_mode:
+            self.deactivate_test_mode()
+        else:
+            self.activate_test_mode()
 
     def activate_test_mode(self):
         self.hardware.activate_test_mode()
