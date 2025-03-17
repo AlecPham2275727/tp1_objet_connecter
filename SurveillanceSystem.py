@@ -47,39 +47,39 @@ class SurveillanceSystem:
         self.deactivate_button.grid(row=4, column=1, pady=10)
 
         tkinter.Label(self.root, text="Température:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").pack()
+                      fg="white", bg="#2C2F33").grid(row=5, column=1, pady=10)
 
         self.increase_temp_btn = tkinter.Button(self.root, text="+", command=self.increase_temp)
-        self.increase_temp_btn.pack()
+        self.increase_temp_btn.grid(row=6, column=1, pady=10)
 
         self.decrease_temp_btn = tkinter.Button(self.root, text="-", command=self.decrease_temp)
-        self.decrease_temp_btn.pack()
+        self.decrease_temp_btn.grid(row=7, column=1, pady=10)
 
         tkinter.Label(self.root, text="Trappe:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").pack()
+                      fg="white", bg="#2C2F33").grid(row=8, column=1, pady=10)
 
         self.open_door_btn = tkinter.Button(self.root, text="Ouvrir", command=self.open_door)
-        self.open_door_btn.pack()
+        self.open_door_btn.grid(row=9, column=1, pady=10)
 
         self.close_door_btn = tkinter.Button(self.root, text="Fermer", command=self.close_door)
-        self.close_door_btn.pack()
+        self.close_door_btn.grid(row=10, column=1, pady=10)
 
         tkinter.Label(self.root, text="Alarme:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").pack()
+                      fg="white", bg="#2C2F33").grid(row=11, column=1, pady=10)
 
         self.activate_alarm_btn = tkinter.Button(self.root, text="Activer", command=self.activate_alarm)
-        self.activate_alarm_btn.pack()
+        self.activate_alarm_btn.grid(row=12, column=1, pady=10)
 
         self.deactivate_alarm_btn = tkinter.Button(self.root, text="Désactiver", command=self.deactivate_alarm)
-        self.deactivate_alarm_btn.pack()
+        self.deactivate_alarm_btn.grid(row=13, column=1, pady=10)
 
     def update_temperature(self):
-        temp = self.hardware.read_temp()
+        temp = self.hardware.current_temp
         self.temperature_value.config(text=f"{temp}°C")
 
         self.hardware.check_temperature(self.handle_alert)
 
-        self.root.after(2000, self.update_temperature)
+        self.root.after(500, self.update_temperature)
 
     def handle_alert(self, status):
         if status == "ALERT":
