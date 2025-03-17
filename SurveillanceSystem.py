@@ -14,6 +14,7 @@ class SurveillanceSystem:
 
         self.create_widgets()
         self.update_temperature()
+        self.deactivate_test_mode()
 
     def create_widgets(self):
 
@@ -91,10 +92,23 @@ class SurveillanceSystem:
     def activate_test_mode(self):
         self.hardware.activate_test_mode()
         self.test_mode_value.config(text="Activé", fg="yellow")
+        self.increase_temp_btn.config(state="normal")
+        self.decrease_temp_btn.config(state="normal")
+        self.open_door_btn.config(state="normal")
+        self.close_door_btn.config(state="normal")
+        self.activate_alarm_btn.config(state="normal")
+        self.deactivate_alarm_btn.config(state="normal")
+        
 
     def deactivate_test_mode(self):
         self.hardware.deactivate_test_mode()
         self.test_mode_value.config(text="Désactivé", fg="yellow")
+        self.increase_temp_btn.config(state="disabled")
+        self.decrease_temp_btn.config(state="disabled")
+        self.open_door_btn.config(state="disabled")
+        self.close_door_btn.config(state="disabled")
+        self.activate_alarm_btn.config(state="disabled")
+        self.deactivate_alarm_btn.config(state="disabled")
 
     def increase_temp(self):
         self.hardware.increase_temp()
