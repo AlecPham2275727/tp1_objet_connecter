@@ -1,13 +1,14 @@
 import tkinter
 from HardwareController import HardwareController
+from Status import Status
 
 class SurveillanceSystem:
-
     def __init__(self, root):
         self.root = root
         self.root.title("Système de Surveillance")
-        self.root.geometry("350x250")
+        self.root.geometry("700x250")
         self.root.configure(bg="#2C2F33")
+        self.root.resizable(False, False)
 
         self.hardware = HardwareController()
 
@@ -28,7 +29,7 @@ class SurveillanceSystem:
 
         tkinter.Label(self.root, text="État de la porte:", font=("Arial", 12),
                       fg="white", bg="#2C2F33").grid(row=2, column=0, sticky="w", padx=10, pady=5)
-        self.door_state_value = tkinter.Label(self.root, text="Fermée", font=("Arial", 12, "bold"),
+        self.door_state_value = tkinter.Label(self.root, text="Ouverte", font=("Arial", 12, "bold"),
                                               fg="yellow", bg="#2C2F33")
         self.door_state_value.grid(row=2, column=1, sticky="w", padx=10)
 
@@ -47,45 +48,45 @@ class SurveillanceSystem:
         self.deactivate_button.grid(row=4, column=1, pady=10)
 
         tkinter.Label(self.root, text="Température:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").grid(row=5, column=1, pady=10)
+                      fg="white", bg="#2C2F33").grid(row=0, column=2, pady=10, padx=5)
 
         self.increase_temp_btn = tkinter.Button(self.root, text="+", command=self.increase_temp)
-        self.increase_temp_btn.grid(row=6, column=1, pady=10)
+        self.increase_temp_btn.grid(row=1, column=2, pady=10, padx=5)
 
         self.decrease_temp_btn = tkinter.Button(self.root, text="-", command=self.decrease_temp)
-        self.decrease_temp_btn.grid(row=7, column=1, pady=10)
+        self.decrease_temp_btn.grid(row=2, column=2, pady=10, padx=5)
 
         tkinter.Label(self.root, text="Trappe:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").grid(row=8, column=1, pady=10)
+                      fg="white", bg="#2C2F33").grid(row=0, column=3, pady=10, padx=5)
 
         self.open_door_btn = tkinter.Button(self.root, text="Ouvrir", command=self.open_door)
-        self.open_door_btn.grid(row=9, column=1, pady=10)
+        self.open_door_btn.grid(row=1, column=3, pady=10, padx=5)
 
         self.close_door_btn = tkinter.Button(self.root, text="Fermer", command=self.close_door)
-        self.close_door_btn.grid(row=10, column=1, pady=10)
+        self.close_door_btn.grid(row=2, column=3, pady=10, padx=5)
 
         tkinter.Label(self.root, text="Alarme:", font=("Arial", 12),
-                      fg="white", bg="#2C2F33").grid(row=11, column=1, pady=10)
+                      fg="white", bg="#2C2F33").grid(row=0, column=4, pady=10, padx=5)
 
         self.activate_alarm_btn = tkinter.Button(self.root, text="Activer", command=self.activate_alarm)
-        self.activate_alarm_btn.grid(row=12, column=1, pady=10)
+        self.activate_alarm_btn.grid(row=1, column=4, pady=10, padx=5)
 
         self.deactivate_alarm_btn = tkinter.Button(self.root, text="Désactiver", command=self.deactivate_alarm)
-        self.deactivate_alarm_btn.grid(row=13, column=1, pady=10)
+        self.deactivate_alarm_btn.grid(row=2, column=4, pady=10, padx=5)
 
     def update_temperature(self):
         temp = self.hardware.current_temp
         self.temperature_value.config(text=f"{temp}°C")
 
         self.hardware.check_temperature(self.handle_alert)
-
+    
         self.root.after(500, self.update_temperature)
 
-    def handle_alert(self, status):
-        if status == "ALERT":
-            self.door_state_value.config(text="Ouverte", fg="red")
+    def handle_alert(self, status ):
+        if status == Status.ALERT:
+            self.door_state_value.config(text="Fermée", fg="red")
         else:
-            self.door_state_value.config(text="Fermée", fg="yellow")
+            self.door_state_value.config(text="Ouverte", fg="yellow")
 
     def activate_test_mode(self):
         self.hardware.activate_test_mode()
@@ -103,9 +104,11 @@ class SurveillanceSystem:
 
     def open_door(self):
         self.hardware.open_door()
-
+        self.handle_alert(Status.SAFE)
+        
     def close_door(self):
         self.hardware.close_door()
+        self.handle_alert(Status.ALERT)
 
     def activate_alarm(self):
         self.hardware.activate_alarm()

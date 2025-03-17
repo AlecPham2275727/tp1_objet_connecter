@@ -45,22 +45,23 @@ class HardwareController:
             
         return self.current_temp
 
-    def check_temperature(self, ui_callback_function):
+    def check_temperature(self, ui_callback):
         if not self.is_test_mode:
             self.current_temp = self.read_temp()
             
         if self.current_temp > self.MAXIMUM_SAFE_TEMP and self.status != Status.ALERT:
             print('Alert temp')
             self.status = Status.ALERT
-            ui_callback_function("ALERT")
             self.activate_alarm()
             self.close_door()
+            ui_callback(Status.ALERT)
 
         elif self.current_temp <= self.MAXIMUM_SAFE_TEMP and self.status != Status.SAFE:
             print('Safe temp')
             self.status = Status.SAFE
             self.deactivate_alarm()
             self.open_door()
+            ui_callback(Status.SAFE)
 
 
     def activate_test_mode(self):
@@ -78,10 +79,10 @@ class HardwareController:
         GPIO.output(self.led, GPIO.LOW)
 
     def close_door(self):
-        self.door.max()
+        self.door.min()
 
     def open_door(self):
-        self.door.min()
+        self.door.max()
 
     def increase_temp(self):
         self.current_temp += 1
